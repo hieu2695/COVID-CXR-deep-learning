@@ -42,39 +42,21 @@ testloader = DataLoader(testset, batch_size=batch_test)
 
 
 n_classes = 3
+model = models.resnet34(pretrained=True)
+num_ftrs = model.fc.in_features
+model.fc =  nn.Sequential(
+    nn.Linear(num_ftrs, n_classes))
 
-class Net(nn.Module):
-    def __init__(self):
-        super(Net, self).__init__()
+for param in model.parameters():
+    param.requires_grad = False
 
-        self.cnn_layers = nn.Sequential(
-            # Defining a 2D convolution layer
-            nn.Conv2d(3, 6, kernel_size=3),  # output (6x126x126)
-            nn.BatchNorm2d(6),
-            nn.ReLU(inplace=True),
-            nn.MaxPool2d(kernel_size=2, stride=2),  # output (6x63x63)
-            # Defining another 2D convolution layer
-            nn.Conv2d(6, 16, kernel_size=3),  # output (16x61x61)
-            nn.BatchNorm2d(16),
-            nn.ReLU(inplace=True),
-            nn.AvgPool2d(kernel_size=2, stride=2), # output (16x30x30)
-        )
-
-        self.linear_layers = nn.Sequential(
-            nn.Linear(16 * 30 * 30, n_classes),
-        )
-
-    # Defining the forward pass
-    def forward(self, x):
-        x = self.cnn_layers(x)
-        x = x.view(x.size(0), -1)
-        x = self.linear_layers(x)
-        return x
+for param in model.fc.parameters():
+    param.requires_grad = True
 
 #%% --------------------------------- Preparation -----------------------------------------------------------------
-model = Net()
 
-path ="Model/baseline.pt"
+
+path ="Model/resnet34_0.pt"
 
 #%% ----------------
 
