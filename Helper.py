@@ -135,7 +135,7 @@ def train_baseline_model(model, criterion, LR, epochs, mode, trainloader, testlo
             if (count == 10) or (best_loss < 1e-3):
                 break
         else:
-            if count == 5:
+            if count == 3:
                 break
 
 
@@ -154,9 +154,9 @@ class FocalLoss(nn.Module):
     https://www.kaggle.com/c/tgs-salt-identification-challenge/discussion/65938
     """
 
-    def __init__(self, alpha=0.25, gamma=1.5, logits=True):
+    def __init__(self, alpha=1, gamma=1.5, logits=True):
         super(FocalLoss, self).__init__()
-        self.alpha = torch.tensor([alpha, 1-alpha])
+        self.alpha = alpha
         self.gamma = gamma
         self.logits = logits
 
@@ -164,21 +164,21 @@ class FocalLoss(nn.Module):
     def forward(self, inputs, targets):
 
         device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
-        self.alpha = self.alpha.to(device)
+        #self.alpha = self.alpha.to(device)
 
-        inputs = inputs.view(-1)
-        targets = targets.view(-1)
+        #inputs = inputs.view(-1)
+        #targets = targets.view(-1)
 
         if self.logits:
-            BCE_loss = F.binary_cross_entropy_with_logits(inputs, targets, reduction="none")
+            CE_loss = F.cross_entropy(inputs, targets, reduction="none")
         else:
-            BCE_loss = F.binary_cross_entropy(inputs, targets, reduction="none")
+            CE_loss = F.cross_entropy(inputs, targets, reduction="none")
 
         targets = targets.type(torch.long)
-        at = self.alpha.gather(0, targets)
+        at = self.alpha
 
-        pt = torch.exp(-BCE_loss)
-        F_loss = at* (1-pt)**self.gamma * BCE_loss
+        pt = torch.exp(-CE_loss)
+        F_loss = at*(1-pt)**self.gamma * CE_loss
 
         return torch.mean(F_loss)
 
