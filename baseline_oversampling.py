@@ -45,6 +45,21 @@ x_train, y_train = shuffle(x_train, y_train) ## shuffle training set
 #print(x_test.shape, y_test.shape)
 
 
+#%%
+x_covid_train = []
+y_covid_train = []
+for index in range(len(y_train)):
+    if y_train[index] == 0:
+        x_covid_train.append(x_train[index])
+        y_covid_train.append(y_train[index])
+
+x_covid_train = np.array(x_covid_train)
+y_covid_train = np.array(y_covid_train)
+print(len(y_covid_train))
+
+
+
+
 #%% ------------------------------ DataLoader, Data Augmentation ----------------------------------------------------------
 # convert to torch.Tensor
 # transformation for oversampled training set
@@ -53,6 +68,7 @@ train_data_transform = transforms.Compose([
     transforms.Resize((150),interpolation=Image.NEAREST),
     transforms.RandomCrop(128),
     transforms.RandomHorizontalFlip(),
+    transforms.RandomVerticalFlip(),
     transforms.RandomRotation(degrees=10),
     transforms.ToTensor()
 ])
@@ -67,7 +83,7 @@ batch_train = 256
 batch_test = 512
 
 # apply transformation
-trainset_aug = DataAug(x_train, y_train, transform = train_data_transform ,length=2*len(x_train))
+trainset_aug = DataAug(x_covid_train, y_covid_train, transform = train_data_transform ,length=4*len(x_covid_train))
 trainset = DataAug(x_train, y_train, transform = test_data_transform ,length=len(x_train))
 trainset = torch.utils.data.ConcatDataset([trainset_aug,trainset]) # combine trainset
 valset = DataAug(x_valid, y_valid, transform = test_data_transform, length=len(x_valid))
@@ -125,7 +141,7 @@ dir = os.path.dirname('Model/')
 if not os.path.exists(dir):
     os.makedirs(dir)
 
-path ="Model/baseline2.pt"
+path ="Model/baseline3.pt"
 train_losses, val_losses = train_baseline_model(model, criterion, LR, epochs, "train_val",trainloader, valloader,  path)
 
 #%% ----------------
