@@ -33,15 +33,8 @@ x_train, y_train = np.load("train/x_train.npy"), np.load("train/y_train.npy")
 x_valid, y_valid = np.load("train/x_valid.npy"), np.load("train/y_valid.npy")
 x_test, y_test = np.load("train/x_test.npy"), np.load("train/y_test.npy")
 
-# one-hot encoding label
-#y_train, y_valid, y_test = to_categorical(y_train, num_classes=n_classes), to_categorical(y_valid, num_classes=n_classes), to_categorical(y_test, num_classes=n_classes)
 
 x_train, y_train = shuffle(x_train, y_train) ## shuffle training set
-
-# check shape
-#print(x_train.shape, y_train.shape)
-#print(x_valid.shape, y_valid.shape)
-#print(x_test.shape, y_test.shape)
 
 
 #%% ------------------------------ DataLoader, Data Augmentation ----------------------------------------------------------
@@ -101,11 +94,10 @@ class Net(nn.Module):
         x = self.linear_layers(x)
         return x
 
-#%% --------------------------------- Preparation -----------------------------------------------------------------
-model = Net()
-criterion = nn.CrossEntropyLoss()
-loss, rate = learning_rate_finder(model, criterion, min_lr=1e-7, max_lr = 1e-2, iteration = 200, trainloader=trainloader)
-
+#%% --------------------------------- LR finding -----------------------------------------------------------------
+#model = Net()
+#criterion = nn.CrossEntropyLoss()
+#loss, rate = learning_rate_finder(model, criterion, min_lr=1e-7, max_lr = 1e-3, iteration = 200, trainloader=trainloader)
 
 
 #%% --------------------------------- Preparation -----------------------------------------------------------------
@@ -113,6 +105,8 @@ model = Net()
 LR = 3e-4
 criterion = nn.CrossEntropyLoss()
 epochs = 1000
+
+# path to save model
 dir = os.path.dirname('Model/')
 if not os.path.exists(dir):
     os.makedirs(dir)

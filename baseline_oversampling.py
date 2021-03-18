@@ -45,7 +45,7 @@ x_train, y_train = shuffle(x_train, y_train) ## shuffle training set
 #print(x_test.shape, y_test.shape)
 
 
-#%%
+#%% --------------------------------------- COVID cases to be oversampled -------------------------------------------------
 x_covid_train = []
 y_covid_train = []
 for index in range(len(y_train)):
@@ -55,7 +55,7 @@ for index in range(len(y_train)):
 
 x_covid_train = np.array(x_covid_train)
 y_covid_train = np.array(y_covid_train)
-print(len(y_covid_train))
+#print(len(y_covid_train))
 
 
 
@@ -83,7 +83,7 @@ batch_train = 256
 batch_test = 512
 
 # apply transformation
-trainset_aug = DataAug(x_covid_train, y_covid_train, transform = train_data_transform ,length=4*len(x_covid_train))
+trainset_aug = DataAug(x_covid_train, y_covid_train, transform = train_data_transform ,length=5*len(x_covid_train))
 trainset = DataAug(x_train, y_train, transform = test_data_transform ,length=len(x_train))
 trainset = torch.utils.data.ConcatDataset([trainset_aug,trainset]) # combine trainset
 valset = DataAug(x_valid, y_valid, transform = test_data_transform, length=len(x_valid))
@@ -141,7 +141,7 @@ dir = os.path.dirname('Model/')
 if not os.path.exists(dir):
     os.makedirs(dir)
 
-path ="Model/baseline3.pt"
+path ="Model/baseline_oversampling.pt"
 train_losses, val_losses = train_baseline_model(model, criterion, LR, epochs, "train_val",trainloader, valloader,  path)
 
 #%% ----------------
@@ -161,7 +161,7 @@ plt.plot(inds.astype(np.uint8), train_losses, label = "training loss")
 plt.plot(inds.astype(np.uint8), val_losses, label = "validation loss")
 plt.xlabel("Epoch")
 plt.ylabel("Magnitude")
-plt.title("Baseline model learning curve".format(LR))
+plt.title("Baseline model learning curve")
 plt.legend(loc='best')
 plt.xticks(np.arange(0, max(inds)+2, 3))
 plt.show()

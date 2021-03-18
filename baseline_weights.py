@@ -115,7 +115,7 @@ dir = os.path.dirname('Model/')
 if not os.path.exists(dir):
     os.makedirs(dir)
 
-path ="Model/baseline2.pt"
+path ="Model/baseline_costsensitive.pt"
 train_losses, val_losses = train_baseline_model(model, criterion, LR, epochs, "train_val",trainloader, valloader,  path)
 
 #%% ----------------
@@ -135,7 +135,7 @@ plt.plot(inds.astype(np.uint8), train_losses, label = "training loss")
 plt.plot(inds.astype(np.uint8), val_losses, label = "validation loss")
 plt.xlabel("Epoch")
 plt.ylabel("Magnitude")
-plt.title("Baseline model learning curve".format(LR))
+plt.title("Baseline model learning curve")
 plt.legend(loc='best')
 plt.xticks(np.arange(0, max(inds)+2, 3))
 plt.show()
