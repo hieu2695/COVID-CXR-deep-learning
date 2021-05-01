@@ -28,17 +28,19 @@
  
  ## Notes
  
- Helper.py contains pre-defined classes and functions which are used in the project.
- data_generation.py, data_preprocessing.py show the feature engineering.
- baseline.py contains the baseline model; baselineCV.py is our test for cross-validation method vs the normal split in to training, validation and testing.
- resnet34_freeze.py, resnet34_entire.py are the pretrained resnet34 models with and without the convolutional base frozen.
- resnet34_focal_fc.py: resnet34 model with the convolutional base frozen and only the fully connected layer is trained. The loss function is focal loss.
- resnet34_focal_full.py: resnet34 model that is trained entirely. The weights of its fully connected layer are taken from the previous trained resnet34_focal_fc model. The loss function is focal loss.
- resnet34_cs_fc.py: resnet34 model with the pretrained convolutional base frozen and only the fully connected layer is trained. The loss function is the weighted CE.
- resnet34_cs_full.py: resnet34 model that is trained entirely. The weights of its fully connected layer are taken from the previous trained resnet34_cs_fc model. The loss function is the weighted CE.
- resnet34_diff_lr.py: resnet34 model which is trained entirely using different learning rates for its layers. The initial weights of the convolutional base are the pretrained, while the initial weights of the FC layer are randomly generated.
+ - Helper.py contains pre-defined classes and functions which are used in the project.
+ - data_generation.py, data_preprocessing.py show the feature engineering.
+ - baseline.py contains the baseline model; baselineCV.py is our test for cross-validation method vs the normal split in to training, validation and testing.
+ - resnet34_freeze.py, resnet34_entire.py are the pretrained resnet34 models with and without the convolutional base frozen.
+ - resnet34_focal_fc.py: resnet34 model with the pretrained convolutional base frozen and only the fully connected layer is trained. The loss function is focal loss.
+ - resnet34_focal_full.py: resnet34 model that is trained entirely. The weights of its fully connected layer are taken from the previous trained resnet34_focal_fc model. The loss function is focal loss.
+ - resnet34_cs_fc.py: resnet34 model with the pretrained convolutional base frozen and only the fully connected layer is trained. The loss function is the weighted CE.
+ - resnet34_cs_full.py: resnet34 model that is trained entirely. The weights of its fully connected layer are taken from the previous trained resnet34_cs_fc model. The loss function is the weighted CE.
+ - resnet34_diff_lr.py: resnet34 model which is trained entirely using different learning rates for its layers. The initial weights of the convolutional base are the pretrained, while the initial weights of the FC layer are randomly generated.
+ 
  (Same for VGG16 and DenseNet121).
- testing_prediction.py: the code to re-check the model performance on the testing set.
+ 
+ - testing_prediction.py: the code to re-check the model performance on the testing set.
  
  
  
