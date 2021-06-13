@@ -1,6 +1,6 @@
 # DATS6501-Capstone
 
-[Notebook](https://hieu2695.github.io/COVID-CXR-deep-learning/COVID-19%20Detection%20CXR.pdf)
+[Report](https://hieu2695.github.io/COVID-CXR-deep-learning/COVID-19%20Detection%20CXR.pdf)
 ----------------------------
 ## Introduction
   
